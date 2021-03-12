@@ -23,7 +23,7 @@ async def process_password_step(message: types.Message):
         await Register.next()
         await message.reply("Верный пороль. Теперь введи никнейм!")
     else:
-        await message.reply('Пороль не тот, ты не можешь войти в чат!')
+        await message.reply('Пороль не тот, ты не можешь войти в чат! Введи пароль снова')
 
 
 async def process_nickname_step(message: types.Message, state: FSMContext):
@@ -37,6 +37,7 @@ async def process_nickname_step(message: types.Message, state: FSMContext):
     USERS.update({user_id: User(nickname, username, True)})
     await message.reply("Никнейм свободен. Можешь начать общение!")
     await state.finish()
+    print(USERS.items())
 
 
 def register_handlers_register(dp: Dispatcher):

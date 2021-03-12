@@ -25,7 +25,7 @@ async def process_add_admin_step(message: types.Message, state: FSMContext):
             await bot.send_message(user_key, 'Теперь ты администратор!')
             await state.finish()
             return
-    await message.answer('Человека с таким никнеймом нет в чате')
+    await message.answer('Человека с таким никнеймом нет в чате. Повтори попытку')
 
 
 async def delete_admin(message: types.Message):
@@ -44,7 +44,7 @@ async def process_delete_admin_step(message: types.Message, state: FSMContext):
             await bot.send_message(user_key, 'Ты удален из администраторов!')
             await state.finish()
             return
-    await message.answer('Человека с таким никнеймом нет в чате')
+    await message.answer('Человека с таким никнеймом нет в чате. Повтори попытку')
 
 
 def register_handlers_admin(dp: Dispatcher):
