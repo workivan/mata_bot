@@ -8,3 +8,8 @@ SUPER_USER_ID = 447959709
 PIN_MESSAGE = 'Это первое закрепленное сообщение для проверки'
 bot = Bot(token=TOKEN)
 USERS = dict()
+
+FIL = ["!", "@", "#", "$", "%", "^", "&", "*", "(", ")"]
+
+with open('filter.txt', 'r') as f:
+    FILTER_LIST = f.read().splitlines()

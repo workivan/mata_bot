@@ -14,7 +14,6 @@ from app.user import User
 
 logger = logging.getLogger(__name__)
 
-
 async def main():
 
     logging.basicConfig(
