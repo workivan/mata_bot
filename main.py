@@ -1,13 +1,13 @@
 import telebot
 from user import User
+from config import TOKEN, SUPER_USER_ID, SUPER_USER_LOGIN, SUPER_USER_NICKNAME
 
-bot = telebot.TeleBot('1652503829:AAEO9y_OuSiw3bGzNMG2sehrH8HjD5DrUu0')
+bot = telebot.TeleBot(TOKEN)
 
 users = dict()
 
-super_user = User('gwenbleyd', 'gwenbleyd', True, False, True, True)
-super_user_id = 447959709
-users.update({super_user_id: super_user})
+super_user = User(SUPER_USER_NICKNAME, SUPER_USER_LOGIN, True, False, True, True)
+users.update({SUPER_USER_ID: super_user})
 
 
 @bot.message_handler(commands=['start'])
@@ -30,14 +30,14 @@ def delete_user(message):
 
 @bot.message_handler(commands=['register_admin'])
 def register_admin(message):
-    if int(message.chat.id) == super_user_id:
+    if int(message.chat.id) == SUPER_USER_ID:
         msg = bot.reply_to(message, "Введи никнейм того, кого хочешь сделать админстратором")
         bot.register_next_step_handler(msg, process_add_admin_step)
 
 
 @bot.message_handler(commands=['delete_admin'])
 def delete_admin(message):
-    if int(message.chat.id) == super_user_id:
+    if int(message.chat.id) == SUPER_USER_ID:
         msg = bot.reply_to(message, "Введи никнейм того, кого хочешь удалить из админстратором")
         bot.register_next_step_handler(msg, process_delete_admin_step)
 
