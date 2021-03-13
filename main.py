@@ -12,6 +12,7 @@ from app.handlers.common import register_handlers_common
 from app.config import *
 from app.user import User
 
+
 logger = logging.getLogger(__name__)
 
 
