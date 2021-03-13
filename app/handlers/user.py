@@ -10,43 +10,49 @@ class UserState(StatesGroup):
 
 
 async def delete_user(message: types.Message):
-    for user_key, user_value in USERS.items():
-        if user_key == message.chat.id and user_value.is_admin == True:
-            await message.answer('Введи никнейм того, кого хочешь удалить')
-            await UserState.delete.set()
-            return
-    await message.answer('Ты не можешь банить пользователей')
+    if USERS.get(message.chat.id).is_admin:
+        for user_key, user_value in USERS.items():
+            if user_key == message.chat.id:
+                await message.answer('Введи никнейм того, кого хочешь удалить')
+                await UserState.delete.set()
+                return
+    else:
+        await message.answer('Ты не можешь банить пользователей')
 
 
 async def process_delete_user_step(message: types.Message, state: FSMContext):
     for user_key, user_value in USERS.items():
-        if user_value.nickname == message.text:
+        if user_value.nickname == message.text and USERS.get(message.chat.id).is_admin == False \
+                and USERS.get(message.chat.id).banned == False:
             user_value.banned = True
             await message.answer('Пользователь удален!' + str(user_value.login))
             await bot.send_message(user_key, 'Ты забанен в чате!')
             await state.finish()
             return
-    await message.answer('Человека с таким никнеймом нет в чате. Повтори попытку')
+    await message.answer('Ты не можешь этого сделать')
 
 
 async def add_user(message: types.Message):
-    for user_key, user_value in USERS.items():
-        if user_key == message.chat.id and user_value.is_admin == True:
-            await message.answer('Введи никнейм того, кого разбанить')
-            await UserState.add.set()
-            return
-    await message.answer('Ты не можешь разбанить пользователей')
+    if USERS.get(message.chat.id).is_admin:
+        for user_key, user_value in USERS.items():
+            if user_key == message.chat.id:
+                await message.answer('Введи никнейм того, кого разбанить')
+                await UserState.add.set()
+                return
+    else:
+        await message.answer('Ты не можешь разбанить пользователей')
 
 
 async def process_add_user_step(message: types.Message, state: FSMContext):
     for user_key, user_value in USERS.items():
-        if user_value.nickname == message.text:
+        if user_value.nickname == message.text and USERS.get(message.chat.id).is_admin == False \
+                and USERS.get(message.chat.id).banned == True:
             user_value.banned = False
             await message.answer('Пользователь возвращен!')
             await bot.send_message(user_key, 'Ты раззабанен в чате!')
             await state.finish()
             return
-    await message.answer('Человека с таким никнеймом нет в чате. Повтори попытку')
+    await message.answer('Ты не можешь этого сделать')
 
 
 async def pause_mess(message: types.Message):

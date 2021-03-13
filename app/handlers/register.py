@@ -1,7 +1,7 @@
 from aiogram import Dispatcher, types
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import State, StatesGroup
-from app.config import *
+import app.config
 from app.user import User
 
 
@@ -11,7 +11,7 @@ class Register(StatesGroup):
 
 
 async def register(message: types.Message):
-    if message.chat.id in USERS:
+    if message.chat.id in app.config.USERS:
         await message.reply('Ты уже зарегистрирован!')
     else:
         await message.reply('Введи пароль для продолжения регистрации')
@@ -19,7 +19,7 @@ async def register(message: types.Message):
 
 
 async def process_password_step(message: types.Message):
-    if PASSWORD == message.text:
+    if app.config.PASSWORD == message.text:
         await Register.next()
         await message.reply("Верный пороль. Теперь введи никнейм!")
     else:
@@ -27,14 +27,14 @@ async def process_password_step(message: types.Message):
 
 
 async def process_nickname_step(message: types.Message, state: FSMContext):
-    for user_key, user_value in USERS.items():
+    for user_key, user_value in app.config.USERS.items():
         if user_value.nickname == message.text:
             await message.reply("Этот никнейм уже занят. Выбери другой!")
             return
     user_id = message.chat.id
     nickname = message.text
     username = message.chat.username
-    USERS.update({user_id: User(nickname, username, True)})
+    app.config.USERS.update({user_id: User(nickname, username, True)})
     await message.reply("Никнейм свободен. Можешь начать общение!")
     await state.finish()
 
