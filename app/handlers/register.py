@@ -37,7 +37,6 @@ async def process_nickname_step(message: types.Message, state: FSMContext):
     USERS.update({user_id: User(nickname, username, True)})
     await message.reply("Никнейм свободен. Можешь начать общение!")
     await state.finish()
-    print(USERS.items())
 
 
 def register_handlers_register(dp: Dispatcher):

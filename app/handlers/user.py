@@ -22,7 +22,7 @@ async def process_delete_user_step(message: types.Message, state: FSMContext):
     for user_key, user_value in USERS.items():
         if user_value.nickname == message.text:
             user_value.banned = True
-            await message.answer('Пользователь удален!')
+            await message.answer('Пользователь удален!' + str(user_value.login))
             await bot.send_message(user_key, 'Ты забанен в чате!')
             await state.finish()
             return

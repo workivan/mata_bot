@@ -2,6 +2,9 @@ from aiogram import Dispatcher, types
 import app.config
 from random import sample
 import time
+import re
+
+regex = r"(?P<domain>\w+\.\w{2,3})"
 
 
 async def start_message(message: types.Message):
@@ -23,10 +26,11 @@ async def send_message(message: types.Message):
             if user_key != message.chat.id and user_value.subscription == True:
                 if not user_value.banned:
                     msg = '[' + str(app.config.USERS.get(message.chat.id).nickname) + ']: ' + str(message.text)
+                    msg = re.sub(regex, '<ссылка>', msg)
                     clear_msg = []
                     for word in msg.lower().split():
                         clear_msg.append(''.join(sample(app.config.FIL, len(word)))) if word in app.config.FILTER_LIST else clear_msg.append(word)
-                    time.sleep(30)
+                    time.sleep(5)
                     await app.config.bot.send_message(user_key, text=' '.join(clear_msg))
     else:
         await message.answer('Ты не можешь писать!')

@@ -9,6 +9,7 @@ from app.handlers.admin import register_handlers_admin
 from app.handlers.data import register_handlers_data
 from app.handlers.register import register_handlers_register
 from app.handlers.common import register_handlers_common
+from app.handlers.test import register_handlers_test
 from app.config import *
 from app.user import User
 
@@ -34,6 +35,7 @@ async def main():
     register_handlers_data(dp)
     register_handlers_register(dp)
     register_handlers_common(dp)
+    register_handlers_test(dp)
 
     try:
         await dp.start_polling()
