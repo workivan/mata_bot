@@ -1,5 +1,4 @@
-class User:
-
+class User(object):
     def __init__(self, nickname, login, imporved=False, banned=False, subscription=True, is_admin=False):
         self.nickname = nickname
         self.login = login

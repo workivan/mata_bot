@@ -1,17 +1,28 @@
 from aiogram import Bot
+from dotenv import load_dotenv
+import os
 
-SUPER_USER_NICKNAME = 'gwenbleyd'
-TOKEN = '1625554256:AAEXX5uFiUpVGxqewt4fIZF4htXyjlM5Ks0'
-SUPER_USER_LOGIN = 'gwenbleyd'
-PASSWORD = '841XcTNeYD'
-SUPER_USER_ID = 447959709
-PIN_MESSAGE = 'Это первое закрепленное сообщение для проверки'
+from app import storage as store
+
+load_dotenv()
+DEBUG = False
+SUPER_USER_LOGIN = 'fv_sergey'
+SUPER_USER_ID = 703619442
+SUPER_USER_NICKNAME = 'Сергей Босс'
+TOKEN = os.getenv("BOT_TOKEN")
+PASSWORD = 'Мята'
+PIN_MESSAGE = 'Закрепленное сообщение'
 bot = Bot(token=TOKEN)
-USERS = dict()
+
+if DEBUG:
+    USERS = dict()
+else:
+    USERS = store.UserStorage()
 
 FIL = ["!", "@", "#", "$", "%", "^", "&", "*", "(", ")"]
 
-FILTER_LIST = ['архипиздрит', 'басран', 'бздение', 'бздеть', 'бздех', 'бзднуть', 'бля', 'бздун', 'бздунья', 'бздюха',
+FILTER_LIST = ['архипиздрит', 'басран', 'бздение', 'бздеть', 'блять', 'бздех', 'бзднуть', 'бля', 'бздун', 'бздунья',
+               'бздюха',
                'бикса', 'блежник', 'блудилище', 'бляд', 'блябу', 'блябуду', 'блядун', 'блядунья', 'блядь', 'блядюга',
                'взьебка', 'волосянка', 'взьебывать', "взъебывать", 'выблядок', 'выблядыш', 'выебать', 'выеть',
                'выпердеть', 'высраться', 'выссаться', 'говенка', 'говенный', 'говешка', 'говназия', 'говнецо',

@@ -10,32 +10,32 @@ class DataState(StatesGroup):
 
 
 async def edit_pin_message(message: types.Message):
-    for user_key, user_value in app.config.USERS.items():
-        if user_key == message.chat.id and user_value.is_admin == True:
-            await message.reply('Введи сообщние, которое хочешь закрепить')
+    for user_key, user_value in await app.config.USERS.items():
+        if user_key == message.chat.id and user_value.is_admin is True:
+            await message.reply('Введите сообщние, которое нужно закрепить')
             await DataState.text.set()
             return
-    await message.reply('Ты не можешь изменять закрепеленное сообщение')
+    await message.reply('Вы не можете изменять закрепеленное сообщение')
 
 
 async def process_edit_msg_step(message: types.Message, state: FSMContext):
     app.config.PIN_MESSAGE = message.text
-    await message.reply('Ты успешно поменял закрепленное сообщение')
+    await message.reply('Вы успешно поменяли закрепленное сообщение')
     await state.finish()
 
 
 async def edit_password(message: types.Message):
-    for user_key, user_value in app.config.USERS.items():
-        if user_key == message.chat.id and user_value.is_admin == True:
-            await message.reply('Введи новый пароль')
+    for user_key, user_value in await app.config.USERS.items():
+        if user_key == message.chat.id and user_value.is_admin is True:
+            await message.reply('Введите новый пароль')
             await DataState.password.set()
             return
-    await message.reply('Ты не можешь изменять пароль')
+    await message.reply('Вы не можете изменять пароль')
 
 
 async def process_edit_password_step(message: types.Message, state: FSMContext):
     app.config.PASSWORD = message.text
-    await message.reply('Ты успешно поменял пароль')
+    await message.reply('Вы успешно поменяли пароль')
     await state.finish()
 
 

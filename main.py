@@ -13,12 +13,10 @@ from app.handlers.test import register_handlers_test
 from app.config import *
 from app.user import User
 
-
 logger = logging.getLogger(__name__)
 
 
 async def main():
-
     logging.basicConfig(
         level=logging.INFO,
         format="%(asctime)s - %(levelname)s - %(name)s - %(message)s",
@@ -26,7 +24,14 @@ async def main():
     logger.info("Starting bot")
 
     super_user = User(SUPER_USER_NICKNAME, SUPER_USER_LOGIN, True, False, True, True)
-    USERS.update({SUPER_USER_ID: super_user})
+    if not DEBUG:
+        await USERS.set_conn(user=os.getenv("DB_USER"),
+                             port=os.getenv("DB_PORT"),
+                             host=os.getenv("DB_HOST"),
+                             database=os.getenv("DB_NAME"),
+                             password=os.getenv("DB_PASSWORD")
+                             )
+    await USERS.update({SUPER_USER_ID: super_user})
 
     dp = Dispatcher(bot, storage=MemoryStorage())
 

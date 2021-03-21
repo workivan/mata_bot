@@ -1,0 +1,9 @@
+
+
+BOT_TOKEN=1652503829:AAEO9y_OuSiw3bGzNMG2sehrH8HjD5DrUu0
+
+DB_USER=ikuzin
+DB_PORT=5432
+DB_HOST=localhost
+DB_NAME=bot
+DB_PASSWORD=Pabotahard1$
