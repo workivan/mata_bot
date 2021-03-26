@@ -1,6 +1,7 @@
 from aiogram import Dispatcher, types
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import State, StatesGroup
+
 from app.config import *
 
 
@@ -26,7 +27,7 @@ async def process_delete_user_step(message: types.Message, state: FSMContext):
     for user_key, user_value in await USERS.items():
         tmp_user = await USERS.get(message.chat.id)
         if message.text != SUPER_USER_NICKNAME:
-            if user_value.nickname == message.text and user_value.is_admin is False and tmp_user.is_admin is True:
+            if user_value.nickname == message.text and not user_value.is_admin and tmp_user.is_admin:
                 user_value.banned = True
                 await USERS.update({user_key: user_value})
                 await message.answer('Пользователь забанен!')
@@ -54,7 +55,7 @@ async def process_add_user_step(message: types.Message, state: FSMContext):
     is_un_ban = False
     tmp_user = await USERS.get(message.chat.id)
     for user_key, user_value in await USERS.items():
-        if user_value.nickname == message.text and tmp_user.is_admin is True:
+        if user_value.nickname == message.text and tmp_user.is_admin:
             user_value.banned = False
             await USERS.update({user_key: user_value})
             await message.answer('Пользователь возвращен!')
@@ -71,7 +72,7 @@ async def pause_mess(message: types.Message):
         if user.subscription:
             user.subscription = False
             await USERS.update({message.chat.id: user})
-            await message.answer('Вы отписались от чата')
+            await message.answer('Вы отписались от чата!\nЧтобы продолжить общение используйте команду: \n /go_chat')
         else:
             await message.answer('Вы и так уже отписались от чата!')
 
@@ -83,6 +84,7 @@ async def proceed_mess(message: types.Message):
             user.subscription = True
             await USERS.update({message.chat.id: user})
             await message.answer('Вы вновь в чате!')
+            await message.answer(text=PIN_MESSAGE)
         else:
             await message.answer('Вы и так подписаны на чат')
 

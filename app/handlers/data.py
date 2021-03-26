@@ -11,7 +11,7 @@ class DataState(StatesGroup):
 
 async def edit_pin_message(message: types.Message):
     for user_key, user_value in await app.config.USERS.items():
-        if user_key == message.chat.id and user_value.is_admin is True:
+        if user_key == message.chat.id and user_value.is_admin:
             await message.reply('Введите сообщние, которое нужно закрепить')
             await DataState.text.set()
             return
@@ -26,7 +26,7 @@ async def process_edit_msg_step(message: types.Message, state: FSMContext):
 
 async def edit_password(message: types.Message):
     for user_key, user_value in await app.config.USERS.items():
-        if user_key == message.chat.id and user_value.is_admin is True:
+        if user_key == message.chat.id and user_value.is_admin:
             await message.reply('Введите новый пароль')
             await DataState.password.set()
             return

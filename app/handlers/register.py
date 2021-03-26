@@ -21,9 +21,9 @@ async def register(message: types.Message):
 async def process_password_step(message: types.Message, state: FSMContext):
     if app.config.PASSWORD == message.text:
         await Register.next()
-        await message.reply("Верный пороль. Теперь введите никнейм!")
+        await message.reply("Верный пароль. Теперь введите никнейм!")
     else:
-        await message.reply('Пороль не тот, Вы не можете войти в чат! Начните регитрацию заново')
+        await message.reply('Пароль не тот, Вы не можете войти в чат! Начните регистрацию заново')
         await state.finish()
 
 
